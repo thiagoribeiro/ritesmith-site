@@ -823,9 +823,9 @@
       <div class="container">
         <h2>Token cost tells the whole story</h2>
         <p class="section-lead">
-          LLM loops with MCP tools work — but context accumulates with every call, re-sending
-          the full history each time. RiteSmith generates a workflow once; Trama executes it
-          deterministically, keeping the LLM out of the critical path entirely.
+          Both approaches complete the task successfully. The difference is what it costs.
+          An LLM loop re-sends the full context on every API call — tokens compound.
+          RiteSmith generates the workflow once; Trama runs it without touching the LLM again.
         </p>
 
         <div class="token-split">
@@ -874,9 +874,9 @@
               </div>
               <div class="tl">
                 <span class="tl-icon" style="color:#556677;">⑤</span>
-                <span class="tl-text"><span class="tl-call">[MCP]</span> orders_api.get(…) &nbsp;<span style="color:var(--red); font-size:11px;">⚠ timeout 30s · full context re-sent on retry</span></span>
-                <span class="tl-badge badge-dim">+1,430 tok</span>
-                <span class="tl-badge badge-time" style="color:rgba(255,122,122,0.8); border-color:rgba(255,122,122,0.2);">42s</span>
+                <span class="tl-text"><span class="tl-call">[MCP]</span> orders_api.get(…) → 200</span>
+                <span class="tl-badge badge-dim">+680 tok</span>
+                <span class="tl-badge badge-time">8s</span>
               </div>
               <div class="tl">
                 <span class="tl-icon" style="color:#556677;">⑥</span>
@@ -893,11 +893,11 @@
             </div>
             <div class="trace-total">
               <div>
-                <div class="trace-total-num total-red">~68,000</div>
+                <div class="trace-total-num total-red">~60,000</div>
                 <div class="trace-total-sub">tokens billed &nbsp;·&nbsp; context re-sent each API call</div>
               </div>
               <div>
-                <div class="trace-total-num total-red" style="font-size:20px; margin-top:3px;">~92s</div>
+                <div class="trace-total-num total-red" style="font-size:20px; margin-top:3px;">~58s</div>
                 <div class="trace-total-sub">median latency</div>
               </div>
             </div>
@@ -940,24 +940,51 @@
                 <span class="tl-badge badge-green">0 tok</span>
               </div>
               <div class="tl-divider"></div>
+              <div class="trace-label trace-label-gold" style="margin: 6px 0 8px; font-size:10px;">first run — no artifact yet</div>
+              <div class="tl">
+                <span class="tl-icon" style="color:var(--gold);">③</span>
+                <span class="tl-text"><span class="tl-gold">[ritesmith:plan]</span> intent → execution plan</span>
+                <span class="tl-badge badge-gold">~800 tok</span>
+                <span class="tl-badge badge-time-gold">6s</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:var(--gold);">④</span>
+                <span class="tl-text"><span class="tl-gold">[ritesmith:generate]</span> plan → refund-workflow.lua</span>
+                <span class="tl-badge badge-gold">~4,300 tok</span>
+                <span class="tl-badge badge-time-gold">17s</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:var(--green);">✓</span>
+                <span class="tl-text"><span class="tl-result">artifact saved</span> &nbsp;refund-workflow-v3.lua · reused on all future runs</span>
+              </div>
+              <div class="tl-divider"></div>
               <div class="tl" style="opacity:0.55;">
                 <span class="tl-icon" style="font-size:9px; color:var(--muted);">ALT</span>
                 <span class="tl-text" style="color:var(--muted); font-size:11.5px;">if step fails → Trama returns structured failure to RiteSmith — no blind LLM retry</span>
               </div>
-              <div class="tl" style="opacity:0.55;">
-                <span class="tl-icon" style="font-size:9px; color:var(--muted);">1st</span>
-                <span class="tl-text" style="color:var(--muted); font-size:11.5px;">no artifact yet → <span style="color:#9ab4d4;">[ritesmith:plan]</span> → <span style="color:#9ab4d4;">[ritesmith:generate]</span> → <span style="color:var(--gold);">[trama:execute]</span> → artifact saved</span>
-                <span class="tl-badge badge-gold" style="opacity:0.7;">~6,200 tok · ~25s</span>
-              </div>
             </div>
             <div class="trace-total">
-              <div>
-                <div class="trace-total-num total-gold">~1,500</div>
-                <div class="trace-total-sub">tokens on repeat &nbsp;·&nbsp; artifact reused</div>
-              </div>
-              <div>
-                <div class="trace-total-num total-gold" style="font-size:20px; margin-top:3px;">~5s</div>
-                <div class="trace-total-sub">median latency</div>
+              <div style="display:flex; flex-direction:column; gap:10px; width:100%;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.06);">
+                  <div>
+                    <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:3px;">first run</div>
+                    <div class="trace-total-num total-gold" style="font-size:18px;">~6,200 tok</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:3px;">latency</div>
+                    <div class="trace-total-num total-gold" style="font-size:18px;">~26s</div>
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div>
+                    <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:3px;">on repeat</div>
+                    <div class="trace-total-num total-gold">~1,500 tok</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:3px;">latency</div>
+                    <div class="trace-total-num total-gold">~5s</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -965,9 +992,9 @@
         </div><!-- /.token-split -->
 
         <div class="savings-callout">
-          <span class="savings-num">45×</span>
-          <span class="savings-desc">
-            <strong>fewer tokens</strong> and <strong>18× faster</strong> on repeated tasks.
+          <span class="savings-desc"><strong>10× fewer tokens</strong> on first run &nbsp;·&nbsp;</span>
+          <span class="savings-num">40×</span>
+          <span class="savings-desc"><strong>fewer tokens on repeat.</strong>
             The workflow runs in Trama's runtime — the LLM is not in the loop.
           </span>
         </div>
