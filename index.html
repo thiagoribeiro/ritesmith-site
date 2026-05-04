@@ -424,6 +424,180 @@
       font-size: 14px;
     }
 
+    /* ── Token comparison section ─────────────────────────────────── */
+
+    .token-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .trace-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .trace-panel.trace-gold {
+      border-color: rgba(216,155,50,0.5);
+      background: linear-gradient(180deg, rgba(216,155,50,0.08) 0%, var(--card) 100%);
+    }
+
+    .trace-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .trace-label.trace-label-gold {
+      color: var(--gold);
+    }
+
+    .trace-log {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-family: "JetBrains Mono", "Fira Code", ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 12.5px;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .tl {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.035);
+    }
+
+    .tl:last-of-type { border-bottom: none; }
+
+    .tl-icon {
+      flex-shrink: 0;
+      font-size: 10px;
+      width: 16px;
+      text-align: center;
+    }
+
+    .tl-text { flex: 1; color: #c5d4e3; }
+    .tl-text .tl-call { color: #9ab4d4; }
+    .tl-text .tl-thinking { color: var(--muted); font-style: italic; }
+    .tl-text .tl-result { color: var(--green); }
+    .tl-text .tl-gold { color: var(--gold); }
+
+    .tl-badge {
+      flex-shrink: 0;
+      font-size: 10.5px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .tl-badge.badge-dim {
+      background: rgba(255,122,122,0.08);
+      color: rgba(255,122,122,0.65);
+      border: 1px solid rgba(255,122,122,0.15);
+    }
+
+    .tl-badge.badge-gold {
+      background: rgba(216,155,50,0.1);
+      color: var(--gold);
+      border: 1px solid rgba(216,155,50,0.25);
+    }
+
+    .tl-badge.badge-green {
+      background: rgba(127,216,138,0.08);
+      color: var(--green);
+      border: 1px solid rgba(127,216,138,0.2);
+    }
+
+    .tl-badge.badge-time {
+      background: rgba(138,180,248,0.07);
+      color: rgba(138,180,248,0.65);
+      border: 1px solid rgba(138,180,248,0.15);
+    }
+
+    .tl-badge.badge-time-gold {
+      background: rgba(216,155,50,0.07);
+      color: rgba(216,155,50,0.6);
+      border: 1px solid rgba(216,155,50,0.18);
+    }
+
+    .tl-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 10px 0;
+    }
+
+    .trace-total {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .trace-total-num {
+      font-family: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .trace-total-num.total-red { color: var(--red); }
+    .trace-total-num.total-gold { color: var(--gold); }
+
+    .trace-total-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .trace-total-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .savings-callout {
+      margin-top: 28px;
+      padding: 18px 28px;
+      background: linear-gradient(90deg, rgba(216,155,50,0.07), rgba(216,155,50,0.13), rgba(216,155,50,0.07));
+      border: 1px solid rgba(216,155,50,0.3);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .savings-callout .savings-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: -0.03em;
+    }
+
+    .savings-callout .savings-desc {
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .savings-callout .savings-desc strong { color: var(--text); }
+
     @media (max-width: 900px) {
       .hero,
       .split {
@@ -431,7 +605,8 @@
       }
 
       .grid-3,
-      .comparison {
+      .comparison,
+      .token-split {
         grid-template-columns: 1fr;
       }
 
@@ -641,6 +816,162 @@
             <p>Logic is recomputed on every call instead of being generated once and reused.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="cost">
+      <div class="container">
+        <h2>Token cost tells the whole story</h2>
+        <p class="section-lead">
+          LLM loops with MCP tools work — but context accumulates with every call, re-sending
+          the full history each time. RiteSmith generates a workflow once; Trama executes it
+          deterministically, keeping the LLM out of the critical path entirely.
+        </p>
+
+        <div class="token-split">
+
+          <!-- LLM loop column -->
+          <div class="trace-panel">
+            <div class="trace-label">LLM + MCP tools loop</div>
+            <div class="trace-log">
+              <div class="tl">
+                <span class="tl-icon" style="color:#556677;">①</span>
+                <span class="tl-text"><span class="tl-call">[system prompt + tool schemas]</span> loaded into context</span>
+                <span class="tl-badge badge-dim">4,500 tok</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:#556677;">②</span>
+                <span class="tl-text"><span class="tl-call">[MCP]</span> search_artifacts("refund workflow") → no results</span>
+                <span class="tl-badge badge-dim">+1,050 tok</span>
+                <span class="tl-badge badge-time">7s</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:#556677;"> </span>
+                <span class="tl-text"><span class="tl-thinking">↳ thinking… no match, try a web search</span></span>
+                <span class="tl-badge badge-dim">+320 tok</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:#556677;">③</span>
+                <span class="tl-text"><span class="tl-call">[MCP]</span> web_search("enterprise refund SLA policy") → 8 snippets</span>
+                <span class="tl-badge badge-dim">+2,280 tok</span>
+                <span class="tl-badge badge-time">9s</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:#556677;"> </span>
+                <span class="tl-text"><span class="tl-thinking">↳ thinking… too generic, need internal policy doc</span></span>
+                <span class="tl-badge badge-dim">+290 tok</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:#556677;">④</span>
+                <span class="tl-text"><span class="tl-call">[MCP]</span> read_file("policies/refund.md") → 2,600 words</span>
+                <span class="tl-badge badge-dim">+3,380 tok</span>
+                <span class="tl-badge badge-time">11s</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:#556677;"> </span>
+                <span class="tl-text"><span class="tl-thinking">↳ thinking… must validate against live order</span></span>
+                <span class="tl-badge badge-dim">+240 tok</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:#556677;">⑤</span>
+                <span class="tl-text"><span class="tl-call">[MCP]</span> orders_api.get(…) &nbsp;<span style="color:var(--red); font-size:11px;">⚠ timeout 30s · full context re-sent on retry</span></span>
+                <span class="tl-badge badge-dim">+1,430 tok</span>
+                <span class="tl-badge badge-time" style="color:rgba(255,122,122,0.8); border-color:rgba(255,122,122,0.2);">42s</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:#556677;">⑥</span>
+                <span class="tl-text"><span class="tl-call">[MCP]</span> payments_api.check(…) → approved</span>
+                <span class="tl-badge badge-dim">+680 tok</span>
+                <span class="tl-badge badge-time">9s</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:#556677;"> </span>
+                <span class="tl-text"><span class="tl-thinking">↳ thinking… synthesizing, generating refund decision</span></span>
+                <span class="tl-badge badge-dim">+2,100 tok</span>
+                <span class="tl-badge badge-time">14s</span>
+              </div>
+            </div>
+            <div class="trace-total">
+              <div>
+                <div class="trace-total-num total-red">~68,000</div>
+                <div class="trace-total-sub">tokens billed &nbsp;·&nbsp; context re-sent each API call</div>
+              </div>
+              <div>
+                <div class="trace-total-num total-red" style="font-size:20px; margin-top:3px;">~92s</div>
+                <div class="trace-total-sub">median latency</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RiteSmith + Trama column -->
+          <div class="trace-panel trace-gold">
+            <div class="trace-label trace-label-gold">RiteSmith + Trama</div>
+            <div class="trace-log">
+              <div class="tl">
+                <span class="tl-icon" style="color:var(--gold);">①</span>
+                <span class="tl-text"><span class="tl-gold">[ritesmith:search_artifacts]</span> "refund workflow"</span>
+                <span class="tl-badge badge-gold">~1,100 tok</span>
+                <span class="tl-badge badge-time-gold">2s</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:var(--green);">✓</span>
+                <span class="tl-text"><span class="tl-result">artifact found</span> &nbsp;refund-workflow-v3.lua</span>
+                <span class="tl-badge badge-green">180 tok</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:var(--gold);">②</span>
+                <span class="tl-text"><span class="tl-gold">[trama:execute]</span> workflow=refund-workflow-v3</span>
+                <span class="tl-badge badge-gold">~400 tok</span>
+                <span class="tl-badge badge-time-gold">3s</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:var(--green);">✓</span>
+                <span class="tl-text"><span class="tl-result">orders-api</span> &nbsp;GET /order/… → 200 &nbsp;<span style="color:var(--muted); font-size:11px;">(Trama runtime)</span></span>
+                <span class="tl-badge badge-green">0 tok</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:var(--green);">✓</span>
+                <span class="tl-text"><span class="tl-result">payments-api</span> &nbsp;POST /refund → approved</span>
+                <span class="tl-badge badge-green">0 tok</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:var(--green);">✓</span>
+                <span class="tl-text"><span class="tl-result">notification-api</span> &nbsp;POST /alert → sent · workflow complete</span>
+                <span class="tl-badge badge-green">0 tok</span>
+              </div>
+              <div class="tl-divider"></div>
+              <div class="tl" style="opacity:0.55;">
+                <span class="tl-icon" style="font-size:9px; color:var(--muted);">ALT</span>
+                <span class="tl-text" style="color:var(--muted); font-size:11.5px;">if step fails → Trama returns structured failure to RiteSmith — no blind LLM retry</span>
+              </div>
+              <div class="tl" style="opacity:0.55;">
+                <span class="tl-icon" style="font-size:9px; color:var(--muted);">1st</span>
+                <span class="tl-text" style="color:var(--muted); font-size:11.5px;">no artifact yet → <span style="color:#9ab4d4;">[ritesmith:plan]</span> → <span style="color:#9ab4d4;">[ritesmith:generate]</span> → <span style="color:var(--gold);">[trama:execute]</span> → artifact saved</span>
+                <span class="tl-badge badge-gold" style="opacity:0.7;">~6,200 tok · ~25s</span>
+              </div>
+            </div>
+            <div class="trace-total">
+              <div>
+                <div class="trace-total-num total-gold">~1,500</div>
+                <div class="trace-total-sub">tokens on repeat &nbsp;·&nbsp; artifact reused</div>
+              </div>
+              <div>
+                <div class="trace-total-num total-gold" style="font-size:20px; margin-top:3px;">~5s</div>
+                <div class="trace-total-sub">median latency</div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.token-split -->
+
+        <div class="savings-callout">
+          <span class="savings-num">45×</span>
+          <span class="savings-desc">
+            <strong>fewer tokens</strong> and <strong>18× faster</strong> on repeated tasks.
+            The workflow runs in Trama's runtime — the LLM is not in the loop.
+          </span>
+        </div>
+
       </div>
     </section>
 
