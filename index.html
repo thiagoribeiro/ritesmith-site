@@ -117,7 +117,7 @@
       display: grid;
       grid-template-columns: 1fr 1.05fr;
       gap: 56px;
-      align-items: center;
+      align-items: start;
       padding: 72px 0 96px;
     }
 
@@ -482,11 +482,18 @@
         <h1>LLMs plan.<br />Code executes.</h1>
 
         <p>
-          Most agent systems loop — think, act, observe, repeat.
-          <strong>The LLM is in the critical path for every step.</strong>
-          RiteSmith breaks the loop: the LLM plans once, RiteSmith generates
-          the execution system, Trama runs it reliably.
-        </p>
+  Most AI systems run inside the LLM loop — think, act, observe, repeat.
+  <strong>The LLM is in the critical path for every step.</strong>
+</p>
+
+<p>
+  That makes execution non-deterministic, expensive, and impossible to audit.
+</p>
+
+<p>
+  RiteSmith breaks the loop: the LLM plans once, RiteSmith defines the system,
+  and Trama executes it deterministically.
+</p>
 
         <div class="trilogy">
           <div class="trilogy-row">
@@ -505,11 +512,37 @@
             <span>executes it reliably</span>
           </div>
         </div>
+        
+        <div style="
+  margin-top: 28px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: monospace;
+  color: var(--gold);
+  display: inline-block;
+">
+  decide → define → execute
+</div>
+
+<p style="margin-top:10px; max-width:520px;">
+  The LLM decides once. Execution no longer depends on it.
+</p>
 
         <div class="actions">
           <a class="btn primary" href="https://github.com/thiagoribeiro/ritesmith">View on GitHub</a>
           <a class="btn secondary" href="#how">See how it works</a>
         </div>
+
+        <section>
+  <div class="container">
+    <h2>Generated systems are reusable</h2>
+    <p class="section-lead">
+      RiteSmith does not regenerate systems every time.
+      It searches existing artifacts first and only generates when needed.
+    </p>
+  </div>
+</section>
 
         <div class="powered">
           Powered by <span>Trama</span>
@@ -595,17 +628,17 @@
         <div class="grid grid-3">
           <div class="card">
             <h3>No system boundary</h3>
-            <p>The LLM decides while executing — same input, different path each time.</p>
+            <p>Execution is non-deterministic — the same input can take different paths every run.</p>
           </div>
 
           <div class="card">
             <h3>No persistent record</h3>
-            <p>State lives in prompt context. Nothing is versioned or traceable.</p>
+            <p>State lives in prompts. There is no versioning, no artifacts, no audit trail.</p>
           </div>
 
           <div class="card">
             <h3>LLM cost on every step</h3>
-            <p>The same logic is recomputed on every call instead of being generated once and reused.</p>
+            <p>Logic is recomputed on every call instead of being generated once and reused.</p>
           </div>
         </div>
       </div>
