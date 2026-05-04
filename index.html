@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SHWWCNJFCX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SHWWCNJFCX');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RiteSmith — LLMs plan. Code executes.</title>
+  <meta name="description" content="RiteSmith is the missing layer between LLM planning and deterministic execution. LLMs plan. RiteSmith generates. Trama executes." />
+  <meta property="og:title" content="RiteSmith — LLMs plan. Code executes." />
+  <meta property="og:description" content="The missing layer between LLM planning and deterministic execution." />
+  <meta property="og:image" content="ritesmith.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --bg-soft: #111822;
+      --card: #121a24;
+      --border: #243244;
+      --text: #e8edf2;
+      --muted: #9aa8b8;
+      --gold: #d89b32;
+      --gold-soft: rgba(216, 155, 50, 0.14);
+      --green: #7fd88a;
+      --red: #ff7a7a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(216, 155, 50, 0.12), transparent 32%),
+        linear-gradient(180deg, #0b0f14 0%, #0b0f14 60%, #090c10 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      position: sticky;
+      top: 0;
+      background: rgba(11, 15, 20, 0.82);
+      backdrop-filter: blur(12px);
+      z-index: 50;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-mobile {
+      display: none;
+      gap: 10px;
+      padding: 10px 0 0;
+    }
+
+    .nav-mobile a {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .hero {
+      min-height: 86vh;
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 56px;
+      align-items: center;
+      padding: 72px 0 96px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--gold);
+      background: var(--gold-soft);
+      border: 1px solid rgba(216,155,50,0.25);
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 650;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(44px, 6vw, 76px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      margin: 0 0 24px;
+    }
+
+    .hero p {
+      font-size: 20px;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0;
+    }
+
+    .hero strong {
+      color: var(--text);
+    }
+
+    .trilogy {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .trilogy-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .trilogy-row .label {
+      min-width: 110px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .trilogy-row .arrow {
+      color: var(--gold);
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 34px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 13px 18px;
+      border-radius: 12px;
+      font-weight: 750;
+      border: 1px solid transparent;
+      transition: 180ms ease;
+    }
+
+    .btn.primary {
+      background: var(--gold);
+      color: #111;
+    }
+
+    .btn.secondary {
+      border-color: var(--border);
+      color: var(--text);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .powered {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .powered span {
+      color: var(--gold);
+    }
+
+    /* Animation panel */
+
+    .animation-panel {
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(216,155,50,0.16), transparent 42%),
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 30px 90px rgba(0,0,0,0.35);
+      overflow: hidden;
+    }
+
+    .animation-panel::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(120deg, transparent, rgba(216,155,50,0.12), transparent);
+      animation: shine 5s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-80%); }
+      100% { transform: translateX(80%); }
+    }
+
+    .flow {
+      position: relative;
+      display: grid;
+      gap: 16px;
+      z-index: 1;
+    }
+
+    .flow-card {
+      background: rgba(10,14,20,0.82);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: appear 8s ease infinite;
+    }
+
+    .flow-card:nth-child(1) { animation-delay: 0s; }
+    .flow-card:nth-child(2) { animation-delay: 1s; }
+    .flow-card:nth-child(3) { animation-delay: 2s; }
+    .flow-card:nth-child(4) { animation-delay: 3s; }
+    .flow-card:nth-child(5) { animation-delay: 4s; }
+
+    @keyframes appear {
+      0% { opacity: 0; transform: translateY(14px); }
+      8% { opacity: 1; transform: translateY(0); }
+      72% { opacity: 1; transform: translateY(0); }
+      88% { opacity: 0.25; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(14px); }
+    }
+
+    .card-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .status {
+      color: var(--gold);
+      font-size: 12px;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      color: #d7e1ec;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .workflow-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .node {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px;
+      color: #d7e1ec;
+    }
+
+    .node.done {
+      border-color: rgba(127,216,138,0.5);
+      color: var(--green);
+    }
+
+    .node.retry {
+      border-color: rgba(216,155,50,0.55);
+      color: var(--gold);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 rgba(216,155,50,0); }
+      50% { box-shadow: 0 0 24px rgba(216,155,50,0.24); }
+    }
+
+    section {
+      padding: 76px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin: 0 0 18px;
+    }
+
+    .section-lead {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 19px;
+    }
+
+    .card p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .poster {
+      width: 100%;
+      border-radius: 28px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 30px 90px rgba(0,0,0,0.35);
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .comparison .card:nth-child(3) {
+      border-color: rgba(216,155,50,0.5);
+      background: linear-gradient(180deg, rgba(216,155,50,0.11), rgba(18,26,36,1));
+    }
+
+    .final-cta {
+      text-align: center;
+      padding: 92px 0;
+    }
+
+    .final-cta p {
+      margin: 0 auto 30px;
+      color: var(--muted);
+      max-width: 640px;
+      font-size: 18px;
+    }
+
+    footer {
+      padding: 34px 0;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-3,
+      .comparison {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-mobile {
+        display: flex;
+      }
+
+      .hero {
+        padding-top: 48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="nav">
+        <a class="brand" href="#">
+          <span class="brand-mark">◆</span>
+          RITESMITH
+        </a>
+
+        <nav class="nav-links">
+          <a href="#idea">Idea</a>
+          <a href="#how">How it works</a>
+          <a href="#trama">Powered by Trama</a>
+          <a href="https://github.com/thiagoribeiro/ritesmith">GitHub</a>
+        </nav>
+      </div>
+
+      <nav class="nav-mobile">
+        <a href="https://github.com/thiagoribeiro/ritesmith">GitHub</a>
+        <a href="https://trama.run">Trama</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container hero">
+      <div>
+        <div class="eyebrow">Deterministic execution for AI systems</div>
+
+        <h1>LLMs plan.<br />Code executes.</h1>
+
+        <p>
+          Most agent systems loop — think, act, observe, repeat.
+          <strong>The LLM is in the critical path for every step.</strong>
+          RiteSmith breaks the loop: the LLM plans once, RiteSmith generates
+          the execution system, Trama runs it reliably.
+        </p>
+
+        <div class="trilogy">
+          <div class="trilogy-row">
+            <span class="label">LLM / Agent</span>
+            <span class="arrow">→</span>
+            <span>understands intent</span>
+          </div>
+          <div class="trilogy-row">
+            <span class="label">RiteSmith</span>
+            <span class="arrow">→</span>
+            <span>generates the system</span>
+          </div>
+          <div class="trilogy-row">
+            <span class="label">Trama</span>
+            <span class="arrow">→</span>
+            <span>executes it reliably</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a class="btn primary" href="https://github.com/thiagoribeiro/ritesmith">View on GitHub</a>
+          <a class="btn secondary" href="#how">See how it works</a>
+        </div>
+
+        <div class="powered">
+          Powered by <span>Trama</span>
+        </div>
+      </div>
+
+      <div class="animation-panel" aria-label="Ritesmith workflow animation">
+        <div class="flow">
+          <div class="flow-card">
+            <div class="card-title">
+              <span>User intent</span>
+              <span class="status">received</span>
+            </div>
+            <pre>{
+  "intent": "process order refund",
+  "constraints": { "requires_approval": true }
+}</pre>
+          </div>
+
+          <div class="flow-card">
+            <div class="card-title">
+              <span>LLM planner</span>
+              <span class="status">reasoning</span>
+            </div>
+            <pre>[
+  "validate_request",
+  "check_policy",
+  "refund_payment",
+  "notify_user"
+]</pre>
+          </div>
+
+          <div class="flow-card">
+            <div class="card-title">
+              <span>Ritesmith</span>
+              <span class="status">forging workflow</span>
+            </div>
+            <div class="workflow-row">
+              <span class="node">Validate</span>
+              <span class="node">Policy</span>
+              <span class="node">Refund</span>
+              <span class="node">Notify</span>
+            </div>
+          </div>
+
+          <div class="flow-card">
+            <div class="card-title">
+              <span>Trama execution</span>
+              <span class="status">durable</span>
+            </div>
+            <div class="workflow-row">
+              <span class="node done">Validate</span>
+              <span class="node done">Policy</span>
+              <span class="node retry">Retry refund</span>
+              <span class="node">Notify</span>
+            </div>
+          </div>
+
+          <div class="flow-card">
+            <div class="card-title">
+              <span>Reliable result</span>
+              <span class="status">completed</span>
+            </div>
+            <pre>{
+  "status": "completed",
+  "traceable": true,
+  "recoverable": true
+}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="idea">
+      <div class="container">
+        <h2>The problem with pure AI agents</h2>
+        <p class="section-lead">
+          LLMs are powerful, but they are not execution engines. Putting them in
+          the critical path of every step creates systems that are hard to reason about,
+          expensive to run, and impossible to audit.
+        </p>
+
+        <div class="grid grid-3">
+          <div class="card">
+            <h3>No system boundary</h3>
+            <p>The LLM decides while executing — same input, different path each time.</p>
+          </div>
+
+          <div class="card">
+            <h3>No persistent record</h3>
+            <p>State lives in prompt context. Nothing is versioned or traceable.</p>
+          </div>
+
+          <div class="card">
+            <h3>LLM cost on every step</h3>
+            <p>The same logic is recomputed on every call instead of being generated once and reused.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <h2>Planning is not execution</h2>
+        <p class="section-lead">
+          Ritesmith keeps the intelligence where it belongs: in planning.
+          Execution remains deterministic, observable, and recoverable.
+        </p>
+
+        <div class="comparison">
+          <div class="card">
+            <h3>Pure LLM agents</h3>
+            <p>Flexible, but unpredictable.</p>
+          </div>
+
+          <div class="card">
+            <h3>Static workflows</h3>
+            <p>Reliable, but rigid.</p>
+          </div>
+
+          <div class="card">
+            <h3>Ritesmith</h3>
+            <p>Adaptive planning with deterministic execution.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="container">
+        <h2>How Ritesmith works</h2>
+        <p class="section-lead">
+          The LLM submits an intent. RiteSmith generates the execution system.
+          Trama runs it with retries, state, callbacks, compensation, and observability.
+        </p>
+
+        <div class="grid grid-3">
+          <div class="card">
+            <h3>1. Intent</h3>
+            <p>The LLM understands the goal and submits it to RiteSmith.</p>
+          </div>
+
+          <div class="card">
+            <h3>2. Generate</h3>
+            <p>RiteSmith searches existing artifacts, generates missing Lua capabilities and workflow definitions, validates them under guardrails, and registers them in the artifact registry.</p>
+          </div>
+
+          <div class="card">
+            <h3>3. Execute</h3>
+            <p>Trama runs the workflow with retries, state, sleep, callbacks, and observability. The LLM is no longer in the loop.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="trama">
+      <div class="container split">
+        <div>
+          <h2>Powered by Trama</h2>
+          <p class="section-lead">
+            Ritesmith does not reinvent orchestration. It builds on top of Trama,
+            a lightweight saga orchestrator for reliable distributed workflows.
+          </p>
+
+          <div class="actions">
+            <a class="btn primary" href="https://trama.run">Explore Trama</a>
+            <a class="btn secondary" href="https://github.com/thiagoribeiro/ritesmith">View Ritesmith</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>What Trama provides</h3>
+          <p>
+            Durable workflow state, retries, compensation, callbacks,
+            observability, and production-grade execution semantics.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container split">
+        <div>
+          <h2>The forge behind predictable AI systems</h2>
+          <p class="section-lead">
+            Ritesmith is built around a simple principle: intelligence should design the path,
+            but reliable infrastructure should execute it.
+          </p>
+        </div>
+
+        <img class="poster" src="ritesmith.jpg" alt="Ritesmith forge illustration" />
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="container">
+        <h2>Build predictable AI systems</h2>
+        <p>
+          Use LLMs where they shine: reasoning, planning, and adaptation.
+          Keep execution reliable, auditable, and controlled.
+        </p>
+
+        <a class="btn primary" href="https://github.com/thiagoribeiro/ritesmith">Get started on GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      RiteSmith · LLMs plan. Code executes. · Powered by Trama
+    </div>
+  </footer>
+</body>
+</html>

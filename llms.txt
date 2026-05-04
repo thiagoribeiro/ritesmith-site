@@ -1,0 +1,36 @@
+# RiteSmith
+
+> RiteSmith is the missing layer between LLM planning and deterministic execution.
+
+## What it does
+
+Most agent systems put the LLM in the critical path of every step — think, act, observe, repeat. RiteSmith breaks that loop:
+
+- The **LLM / Agent** understands intent and submits it to RiteSmith
+- **RiteSmith** searches existing artifacts, generates missing Lua capabilities and workflow definitions, validates them under guardrails (schema, policy, sandbox), and registers them in the artifact registry
+- **Trama** executes the resulting workflow with retries, durable state, sleep, callbacks, compensation, and observability
+
+RiteSmith is a **generator**, not an executor. It does not run workflows. Trama does.
+
+## Core concepts
+
+- **Intent** — a structured request submitted by an LLM or agent describing what needs to happen
+- **Artifact registry** — the store of reusable Lua capabilities and workflow definitions that RiteSmith searches before generating new ones
+- **Guardrails** — schema validation, policy checks, and sandbox execution that RiteSmith applies before registering any artifact
+- **Workflow definition** — a declaristic description of steps, dependencies, and compensation logic that Trama can execute
+- **Lua capabilities** — lightweight, sandboxed functions that represent executable actions within a workflow
+
+## What RiteSmith is not
+
+- Not an LLM wrapper or prompt framework
+- Not a workflow engine (Trama is the engine)
+- Not an agent loop (it eliminates the loop)
+
+## Relationship to Trama
+
+RiteSmith is built on top of [Trama](https://trama.run), a lightweight saga orchestrator for reliable distributed workflows. Trama provides durable workflow state, retries, compensation, callbacks, and production-grade execution semantics.
+
+## Links
+
+- GitHub: https://github.com/thiagoribeiro/ritesmith
+- Trama: https://trama.run
