@@ -598,6 +598,27 @@
 
     .savings-callout .savings-desc strong { color: var(--text); }
 
+    .measured { margin-top: 44px; }
+    .measured h3 { margin: 0 0 6px; font-size: 22px; }
+    .measured-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .stat-from { color: var(--muted); font-size: 14px; text-decoration: line-through; }
+    .stat-to { color: var(--gold); font-size: 26px; font-weight: 800; letter-spacing: -0.03em; }
+    .stat-gain { color: var(--green); font-size: 13px; margin-top: 4px; }
+    .measured-note { color: var(--muted); font-size: 13px; margin-top: 14px; max-width: 900px; }
+    .measured-note a { color: var(--gold); }
+
     @media (max-width: 900px) {
       .hero,
       .split {
@@ -608,6 +629,10 @@
       .comparison,
       .token-split {
         grid-template-columns: 1fr;
+      }
+
+      .measured-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .nav-links {
@@ -915,7 +940,7 @@
               </div>
               <div class="tl">
                 <span class="tl-icon" style="color:var(--green);">✓</span>
-                <span class="tl-text"><span class="tl-result">artifact found</span> &nbsp;refund-workflow-v3.lua</span>
+                <span class="tl-text"><span class="tl-result">artifact found</span> &nbsp;refund-workflow v3 (Trama workflow)</span>
                 <span class="tl-badge badge-green">180 tok</span>
               </div>
               <div class="tl">
@@ -943,19 +968,18 @@
               <div class="trace-label trace-label-gold" style="margin: 6px 0 8px; font-size:10px;">first run — no artifact yet</div>
               <div class="tl">
                 <span class="tl-icon" style="color:var(--gold);">③</span>
-                <span class="tl-text"><span class="tl-gold">[ritesmith:plan]</span> intent → execution plan</span>
-                <span class="tl-badge badge-gold">~800 tok</span>
-                <span class="tl-badge badge-time-gold">6s</span>
-              </div>
-              <div class="tl">
-                <span class="tl-icon" style="color:var(--gold);">④</span>
-                <span class="tl-text"><span class="tl-gold">[ritesmith:generate]</span> plan → refund-workflow.lua</span>
-                <span class="tl-badge badge-gold">~4,300 tok</span>
-                <span class="tl-badge badge-time-gold">17s</span>
+                <span class="tl-text"><span class="tl-gold">[ritesmith:plan]</span> intent → semantic plan <span style="color:var(--muted); font-size:11px;">(measured, 0.2.0)</span></span>
+                <span class="tl-badge badge-gold">~6,600 tok</span>
+                <span class="tl-badge badge-time-gold">7s</span>
               </div>
               <div class="tl">
                 <span class="tl-icon" style="color:var(--green);">✓</span>
-                <span class="tl-text"><span class="tl-result">artifact saved</span> &nbsp;refund-workflow-v3.lua · reused on all future runs</span>
+                <span class="tl-text"><span class="tl-result">compiled + validated</span> &nbsp;loops, joins, state → Trama workflow, by code</span>
+                <span class="tl-badge badge-green">0 tok</span>
+              </div>
+              <div class="tl">
+                <span class="tl-icon" style="color:var(--green);">✓</span>
+                <span class="tl-text"><span class="tl-result">artifact saved</span> &nbsp;refund-workflow v3 · reused on all future runs</span>
               </div>
               <div class="tl-divider"></div>
               <div class="tl" style="opacity:0.55;">
@@ -968,11 +992,11 @@
                 <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.06);">
                   <div>
                     <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:3px;">first run</div>
-                    <div class="trace-total-num total-gold" style="font-size:18px;">~6,200 tok</div>
+                    <div class="trace-total-num total-gold" style="font-size:18px;">~7,700 tok</div>
                   </div>
                   <div style="text-align:right;">
                     <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:3px;">latency</div>
-                    <div class="trace-total-num total-gold" style="font-size:18px;">~26s</div>
+                    <div class="trace-total-num total-gold" style="font-size:18px;">~12s</div>
                   </div>
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -992,11 +1016,53 @@
         </div><!-- /.token-split -->
 
         <div class="savings-callout">
-          <span class="savings-desc"><strong>10× fewer tokens</strong> on first run &nbsp;·&nbsp;</span>
+          <span class="savings-desc"><strong>~8× fewer tokens</strong> on first run &nbsp;·&nbsp;</span>
           <span class="savings-num">40×</span>
           <span class="savings-desc"><strong>fewer tokens on repeat.</strong>
             The workflow runs in Trama's runtime — the LLM is not in the loop.
           </span>
+        </div>
+
+        <div class="measured">
+          <h3>Generation got 3× cheaper in 0.2.0</h3>
+          <p class="section-lead" style="margin-bottom:0;">
+            The model now writes a short semantic plan, and RiteSmith compiles loops, joins,
+            state and continuation into the Trama workflow with code. The model writes less, and it
+            makes fewer mistakes in the part that used to break.
+          </p>
+          <div class="measured-grid">
+            <div class="card">
+              <div class="stat-label">Tokens per valid workflow</div>
+              <div class="stat-from">20,785</div>
+              <div class="stat-to">6,646</div>
+              <div class="stat-gain">3.1× fewer</div>
+            </div>
+            <div class="card">
+              <div class="stat-label">Cost per valid workflow</div>
+              <div class="stat-from">$0.0153</div>
+              <div class="stat-to">$0.0043</div>
+              <div class="stat-gain">3.6× cheaper</div>
+            </div>
+            <div class="card">
+              <div class="stat-label">Workflow generation, median</div>
+              <div class="stat-from">20.1 s</div>
+              <div class="stat-to">7.3 s</div>
+              <div class="stat-gain">2.8× faster</div>
+            </div>
+            <div class="card">
+              <div class="stat-label">Valid on first request</div>
+              <div class="stat-from">70% workflows</div>
+              <div class="stat-to">77%</div>
+              <div class="stat-gain">Luau scripts: 94%, 5.2 s, 2,910 tok</div>
+            </div>
+          </div>
+          <p class="measured-note">
+            Same 51-task corpus (31 Luau scripts, 20 Trama workflows), gpt-5-mini at low effort, three
+            runs per task: the October 8 baseline compared with 0.2.0 (October 10, 2026). Token and cost figures
+            include failed attempts and repairs and are divided by valid artifacts. Running the workflow
+            afterwards uses no LLM tokens unless a step calls an LLM capability.
+            <a href="https://github.com/thiagoribeiro/ritesmith/blob/main/benchmarks/generation_latency/README.md#pass-rate-scorecard">Method and raw results</a>.
+          </p>
         </div>
 
       </div>
@@ -1045,7 +1111,7 @@
 
           <div class="card">
             <h3>2. Generate</h3>
-            <p>RiteSmith searches existing artifacts, generates missing Lua capabilities and workflow definitions, validates them under guardrails, and registers them in the artifact registry.</p>
+            <p>RiteSmith searches existing artifacts first. When something is missing, the LLM writes a short semantic plan (calls, waits, conditions, parallel branches, bounded loops). RiteSmith compiles that plan into a Trama workflow and writes missing logic as strictly type-checked Luau scripts. Everything is validated before it is registered.</p>
           </div>
 
           <div class="card">
