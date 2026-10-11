@@ -21,11 +21,11 @@ RiteSmith is a **generator**, not an executor. It does not run workflows. Trama 
 - **Luau scripts** — sandboxed, strictly type-checked functions (LunarDyson runtime) that represent executable actions within a workflow
 - **Semantic plan** — the compact description the LLM writes (calls, waits, conditions, parallel branches, bounded repeats); RiteSmith compiles it deterministically into a Trama workflow
 
-## Measured generation cost (RiteSmith 0.2.0, October 2026)
+## Measured generation cost (RiteSmith 0.2.1, October 2026)
 
 Same 51-task corpus, gpt-5-mini at low effort, three runs per task; failures and repairs included:
-- Workflows: 6,646 tokens and $0.0043 per valid workflow (was 20,785 and $0.0153), median 7.3 s (was 20.1 s), 77% valid (was 70%)
-- Luau scripts: 2,910 tokens per valid script, median 5.2 s, 94% valid
+- Workflows: 9,433 tokens and $0.0059 per valid workflow (was 22,482 and $0.0165), median 8.5 s (was 20.1 s), 68% valid (was 64%); valid = structural checks plus every argument and referenced field matching the capability contract
+- Luau scripts: 3,011 tokens per valid script, median 5.7 s, 96% valid
 - Execution in Trama uses no LLM tokens unless a workflow step calls an LLM capability
 - Method: https://github.com/thiagoribeiro/ritesmith/blob/main/benchmarks/generation_latency/README.md
 
@@ -42,4 +42,4 @@ RiteSmith is built on top of [Trama](https://trama.run), a lightweight saga orch
 ## Links
 
 - GitHub: https://github.com/thiagoribeiro/ritesmith
-- Trama: https://trama.run (RiteSmith 0.2.0 requires Trama 3.0.1 or later)
+- Trama: https://trama.run (RiteSmith 0.2.1 requires Trama 3.0.1 or later)

@@ -968,9 +968,9 @@
               <div class="trace-label trace-label-gold" style="margin: 6px 0 8px; font-size:10px;">first run — no artifact yet</div>
               <div class="tl">
                 <span class="tl-icon" style="color:var(--gold);">③</span>
-                <span class="tl-text"><span class="tl-gold">[ritesmith:plan]</span> intent → semantic plan <span style="color:var(--muted); font-size:11px;">(measured, 0.2.0)</span></span>
-                <span class="tl-badge badge-gold">~6,600 tok</span>
-                <span class="tl-badge badge-time-gold">7s</span>
+                <span class="tl-text"><span class="tl-gold">[ritesmith:plan]</span> intent → semantic plan <span style="color:var(--muted); font-size:11px;">(measured, 0.2.1)</span></span>
+                <span class="tl-badge badge-gold">~9,400 tok</span>
+                <span class="tl-badge badge-time-gold">9s</span>
               </div>
               <div class="tl">
                 <span class="tl-icon" style="color:var(--green);">✓</span>
@@ -992,11 +992,11 @@
                 <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.06);">
                   <div>
                     <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:3px;">first run</div>
-                    <div class="trace-total-num total-gold" style="font-size:18px;">~7,700 tok</div>
+                    <div class="trace-total-num total-gold" style="font-size:18px;">~10,500 tok</div>
                   </div>
                   <div style="text-align:right;">
                     <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:3px;">latency</div>
-                    <div class="trace-total-num total-gold" style="font-size:18px;">~12s</div>
+                    <div class="trace-total-num total-gold" style="font-size:18px;">~14s</div>
                   </div>
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -1016,7 +1016,7 @@
         </div><!-- /.token-split -->
 
         <div class="savings-callout">
-          <span class="savings-desc"><strong>~8× fewer tokens</strong> on first run &nbsp;·&nbsp;</span>
+          <span class="savings-desc"><strong>~6× fewer tokens</strong> on first run &nbsp;·&nbsp;</span>
           <span class="savings-num">40×</span>
           <span class="savings-desc"><strong>fewer tokens on repeat.</strong>
             The workflow runs in Trama's runtime — the LLM is not in the loop.
@@ -1024,7 +1024,7 @@
         </div>
 
         <div class="measured">
-          <h3>Generation got 3× cheaper in 0.2.0</h3>
+          <h3>Generation got ~3× cheaper in 0.2</h3>
           <p class="section-lead" style="margin-bottom:0;">
             The model now writes a short semantic plan, and RiteSmith compiles loops, joins,
             state and continuation into the Trama workflow with code. The model writes less, and it
@@ -1033,33 +1033,34 @@
           <div class="measured-grid">
             <div class="card">
               <div class="stat-label">Tokens per valid workflow</div>
-              <div class="stat-from">20,785</div>
-              <div class="stat-to">6,646</div>
-              <div class="stat-gain">3.1× fewer</div>
+              <div class="stat-from">22,482</div>
+              <div class="stat-to">9,433</div>
+              <div class="stat-gain">2.4× fewer</div>
             </div>
             <div class="card">
               <div class="stat-label">Cost per valid workflow</div>
-              <div class="stat-from">$0.0153</div>
-              <div class="stat-to">$0.0043</div>
-              <div class="stat-gain">3.6× cheaper</div>
+              <div class="stat-from">$0.0165</div>
+              <div class="stat-to">$0.0059</div>
+              <div class="stat-gain">2.8× cheaper</div>
             </div>
             <div class="card">
               <div class="stat-label">Workflow generation, median</div>
               <div class="stat-from">20.1 s</div>
-              <div class="stat-to">7.3 s</div>
-              <div class="stat-gain">2.8× faster</div>
+              <div class="stat-to">8.5 s</div>
+              <div class="stat-gain">2.4× faster</div>
             </div>
             <div class="card">
               <div class="stat-label">Valid on first request</div>
-              <div class="stat-from">70% workflows</div>
-              <div class="stat-to">77%</div>
-              <div class="stat-gain">Luau scripts: 94%, 5.2 s, 2,910 tok</div>
+              <div class="stat-from">64% workflows</div>
+              <div class="stat-to">68%</div>
+              <div class="stat-gain">Luau scripts: 96%, 5.7 s, 3,011 tok</div>
             </div>
           </div>
           <p class="measured-note">
             Same 51-task corpus (31 Luau scripts, 20 Trama workflows), gpt-5-mini at low effort, three
-            runs per task: the October 8 baseline compared with 0.2.0 (October 10, 2026). Token and cost figures
-            include failed attempts and repairs and are divided by valid artifacts. Running the workflow
+            runs per task: the October 8 baseline compared with 0.2.1 (October 11, 2026). Valid means the workflow
+            passes structural checks and every argument and referenced field matches the capability's contract.
+            Token and cost figures include failed attempts and repairs and are divided by valid artifacts. Running the workflow
             afterwards uses no LLM tokens unless a step calls an LLM capability.
             <a href="https://github.com/thiagoribeiro/ritesmith/blob/main/benchmarks/generation_latency/README.md#pass-rate-scorecard">Method and raw results</a>.
           </p>
