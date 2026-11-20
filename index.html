@@ -981,6 +981,10 @@
                 <span class="tl-icon" style="color:var(--green);">✓</span>
                 <span class="tl-text"><span class="tl-result">artifact saved</span> &nbsp;refund-workflow v3 · reused on all future runs</span>
               </div>
+              <div class="tl" style="opacity:0.55;">
+                <span class="tl-icon" style="font-size:9px; color:var(--muted);">ALT</span>
+                <span class="tl-text" style="color:var(--muted); font-size:11.5px;">intent matches a recipe → workflow built in code · 0 tok · &lt;1s</span>
+              </div>
               <div class="tl-divider"></div>
               <div class="tl" style="opacity:0.55;">
                 <span class="tl-icon" style="font-size:9px; color:var(--muted);">ALT</span>
@@ -1021,6 +1025,54 @@
           <span class="savings-desc"><strong>fewer tokens on repeat.</strong>
             The workflow runs in Trama's runtime — the LLM is not in the loop.
           </span>
+        </div>
+
+        <div class="measured">
+          <h3>The generator now checks its own work</h3>
+          <p class="section-lead" style="margin-bottom:0;">
+            The agent loop still exists, but it runs once, at build time, and it is bounded. While
+            RiteSmith generates, the model works like a coding agent: it looks up closed contracts and
+            real devices, validates its plan, runs it in an offline simulator with a virtual clock, fixes
+            what failed, and submits only what passes. Common shapes skip the model entirely: a
+            <em>recipe</em> (threshold, price move, arrival or departure) is built in code in under a
+            second, with no tokens.
+          </p>
+          <div class="measured-grid">
+            <div class="card">
+              <div class="stat-label">Passed checks</div>
+              <div class="stat-from">10 / 23</div>
+              <div class="stat-to">22 / 23</div>
+              <div class="stat-gain">single answer → agent loop</div>
+            </div>
+            <div class="card">
+              <div class="stat-label">Judged quality (1–5)</div>
+              <div class="stat-from">1.82</div>
+              <div class="stat-to">4.35</div>
+              <div class="stat-gain">2.4× higher</div>
+            </div>
+            <div class="card">
+              <div class="stat-label">Generation, median</div>
+              <div class="stat-from">55 s</div>
+              <div class="stat-to">21 s</div>
+              <div class="stat-gain">2.6× faster</div>
+            </div>
+            <div class="card">
+              <div class="stat-label">Cost per request</div>
+              <div class="stat-from">$0.16</div>
+              <div class="stat-to">$0.015</div>
+              <div class="stat-gain">~11× cheaper · 84% of input cached</div>
+            </div>
+          </div>
+          <p class="measured-note">
+            23 requests from a home-automation deployment: device actions, monitors, presence, reports,
+            computation, web lookups, and requests that must be refused. One run each, November 20, 2026.
+            The baseline is the single-answer generator on gpt-5.5; the agent loop runs on gpt-6.1-terra.
+            Checks are static: an artifact was produced, of the right type, and it uses the required
+            capabilities and none of the forbidden ones. Quality is scored by a separate LLM judge.
+            The agent's prompt rules were tuned on this subset's failures, so treat these numbers as a
+            development measurement, not an independent evaluation.
+            <a href="https://github.com/thiagoribeiro/ritesmith#how-generation-works">How generation works</a>.
+          </p>
         </div>
 
         <div class="measured">
@@ -1112,7 +1164,7 @@
 
           <div class="card">
             <h3>2. Generate</h3>
-            <p>RiteSmith searches existing artifacts first. When something is missing, the LLM writes a short semantic plan (calls, waits, conditions, parallel branches, bounded loops). RiteSmith compiles that plan into a Trama workflow and writes missing logic as strictly type-checked Luau scripts. Everything is validated before it is registered.</p>
+            <p>RiteSmith searches existing artifacts first, then verified recipes that need no model at all. When something is still missing, the LLM writes a short semantic plan (calls, waits, conditions, parallel branches, bounded loops) and checks it with tools: contracts, validation, an offline simulation. RiteSmith compiles the plan into a Trama workflow and writes missing logic as strictly type-checked Luau scripts. Everything is validated before it is registered.</p>
           </div>
 
           <div class="card">
