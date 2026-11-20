@@ -18,7 +18,7 @@ RiteSmith is a **generator**, not an executor. It does not run workflows. Trama 
 - **Artifact registry** — the store of reusable Luau scripts and Trama workflow definitions that RiteSmith searches before generating new ones
 - **Guardrails** — schema validation, policy checks, and sandbox execution that RiteSmith applies before registering any artifact
 - **Workflow definition** — a declaristic description of steps, dependencies, and compensation logic that Trama can execute
-- **Luau scripts** — sandboxed, strictly type-checked functions (LunarDyson runtime) that represent executable actions within a workflow
+- **Luau scripts** — sandboxed, strictly type-checked functions that represent executable actions within a workflow; they run on LunarDyson (https://thiagoribeiro.github.io/lunardyson/), an execution runtime for untrusted Luau: default deny, type-checked against the registered tools, metered memory, time, tool calls and effects
 - **Semantic plan** — the compact description the LLM writes (calls, waits, conditions, parallel branches, bounded repeats); RiteSmith compiles it deterministically into a Trama workflow
 - **Recipe** — a verified workflow shape (threshold reached, price moved N%, someone arrived or everyone left) built from validated parameters in under a second, without tokens
 - **Agent mode** — the generator works like a coding agent: it looks up contracts and devices, validates and simulates its plan, fixes errors, and submits only what passes. The loop is bounded and runs once, at build time; every turn is kept as a transcript
@@ -52,4 +52,5 @@ RiteSmith is built on top of [Trama](https://trama.run), a lightweight saga orch
 ## Links
 
 - GitHub: https://github.com/thiagoribeiro/ritesmith
+- LunarDyson: https://thiagoribeiro.github.io/lunardyson/ (GitHub: https://github.com/thiagoribeiro/lunardyson)
 - Trama: https://trama.run (RiteSmith 0.2.1 requires Trama 3.0.1 or later)

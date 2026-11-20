@@ -663,6 +663,7 @@
           <a href="#idea">Idea</a>
           <a href="#how">How it works</a>
           <a href="#trama">Powered by Trama</a>
+          <a href="#lunardyson">LunarDyson</a>
           <a href="https://github.com/thiagoribeiro/ritesmith">GitHub</a>
         </nav>
       </div>
@@ -670,6 +671,7 @@
       <nav class="nav-mobile">
         <a href="https://github.com/thiagoribeiro/ritesmith">GitHub</a>
         <a href="https://trama.run">Trama</a>
+        <a href="https://thiagoribeiro.github.io/lunardyson/">LunarDyson</a>
       </nav>
     </div>
   </header>
@@ -1195,6 +1197,33 @@
           <p>
             Durable workflow state, retries, compensation, callbacks,
             observability, and production-grade execution semantics.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="lunardyson">
+      <div class="container split">
+        <div>
+          <h2>Scripts run on LunarDyson</h2>
+          <p class="section-lead">
+            Generated Luau scripts do not run in a general-purpose interpreter. They run in
+            LunarDyson, an execution runtime for untrusted Luau built for code an LLM wrote.
+          </p>
+
+          <div class="actions">
+            <a class="btn primary" href="https://thiagoribeiro.github.io/lunardyson/">Explore LunarDyson</a>
+            <a class="btn secondary" href="https://github.com/thiagoribeiro/lunardyson">View on GitHub</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>What LunarDyson provides</h3>
+          <p>
+            Default deny: a script reaches the world only through the tools RiteSmith registered.
+            Every script is type-checked against those tools' signatures before it runs. Memory,
+            VM time, tool calls and effect classes are metered, and a violation cannot be
+            swallowed by <code>pcall</code>.
           </p>
         </div>
       </div>
