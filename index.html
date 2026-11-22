@@ -654,6 +654,14 @@
     .measured-note { color: var(--muted); font-size: 13px; margin-top: 14px; max-width: 900px; }
     .measured-note a { color: var(--gold); }
 
+    /* ── Narrow screens: let grid/flex children shrink, wrap long tokens ── */
+    .hero > *, .split > *, .grid > *, .grid-3 > *, .comparison > *,
+    .token-split > *, .measured-grid > * { min-width: 0; }
+    .trace-panel, .tl-text { min-width: 0; }
+    .tl-text, pre, code { overflow-wrap: anywhere; }
+    .hero-note { margin: 34px 0 6px; }
+    .hero-note h2 { font-size: 26px; margin: 0 0 10px; }
+
     @media (max-width: 900px) {
       .hero,
       .split {
@@ -681,6 +689,19 @@
       .hero {
         padding-top: 48px;
       }
+    }
+    @media (max-width: 640px) {
+      section { padding: 56px 0; }
+      pre { font-size: 12px; }
+      .trace-panel { padding: 18px 16px; }
+      .tl { flex-wrap: wrap; }
+      .tl-text { flex-basis: calc(100% - 24px); }
+      .tl-text + .tl-badge { margin-left: 24px; }
+      .measured-grid { grid-template-columns: 1fr; }
+      .trace-total, .nav-mobile { flex-wrap: wrap; gap: 6px; }
+      .stat-to { font-size: 22px; }
+      .trilogy-row .label { min-width: 0; }
+      .savings-callout { padding: 16px; }
     }
   </style>
 </head>
@@ -771,15 +792,13 @@
           <a class="btn secondary" href="#how">See how it works</a>
         </div>
 
-        <section>
-  <div class="container">
-    <h2>Generated systems are reusable</h2>
-    <p class="section-lead">
-      RiteSmith does not regenerate systems every time.
-      It searches existing artifacts first and only generates when needed.
-    </p>
-  </div>
-</section>
+        <div class="hero-note">
+          <h2>Generated systems are reusable</h2>
+          <p class="section-lead">
+            RiteSmith does not regenerate systems every time.
+            It searches existing artifacts first and only generates when needed.
+          </p>
+        </div>
 
         <div class="powered">
           Powered by <span>Trama</span>
