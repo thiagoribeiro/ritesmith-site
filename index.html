@@ -968,7 +968,7 @@
               <div>
                 <div class="trace-total-num total-red">~74,000</div>
                 <div class="trace-total-sub">tokens processed &nbsp;·&nbsp; 71.9K input (sum of the 7 calls) + 2.4K output</div>
-                <div class="trace-total-sub">with prompt caching: 57K of that input is a repeated prefix &nbsp;·&nbsp; billed like ~21K input + 2.4K output</div>
+                <div class="trace-total-sub">with prompt caching, 57K of that input is a prefix already in cache &nbsp;·&nbsp; not cached: ~15K input + 2.4K output</div>
               </div>
               <div>
                 <div class="trace-total-num total-red" style="font-size:20px; margin-top:3px;">~57s</div>
@@ -1048,7 +1048,7 @@
                   <div>
                     <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:3px;">on repeat</div>
                     <div class="trace-total-num total-gold">~4,200 tok</div>
-                    <div class="trace-total-sub">4.0K input + 0.2K output &nbsp;·&nbsp; cached: ~1.8K + 0.2K</div>
+                    <div class="trace-total-sub">4.0K input + 0.2K output &nbsp;·&nbsp; not cached: ~1.6K + 0.2K</div>
                   </div>
                   <div style="text-align:right;">
                     <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:3px;">latency</div>
@@ -1062,9 +1062,9 @@
         </div><!-- /.token-split -->
 
         <div class="savings-callout">
-          <span class="savings-num">~11×</span>
-          <span class="savings-desc"><strong>fewer billed tokens on repeat, with prompt caching</strong>
-            (18× without) &nbsp;·&nbsp; ~5× fewer on the first run (~2× with caching).
+          <span class="savings-num">~10×</span>
+          <span class="savings-desc"><strong>fewer tokens on repeat, counting only what is not cached</strong>
+            (18× counting all) &nbsp;·&nbsp; first run: ~5× fewer (~1.5× not cached).
             The workflow runs in Trama's runtime — the LLM is not in the loop.
           </span>
         </div>
@@ -1072,9 +1072,10 @@
           Illustrative trace. Tool payload sizes are typical values, not a benchmark; the
           <code>ritesmith:plan</code> step is the measured 0.2.1 average (9,433 tokens per valid workflow).
           "N in" is the input sent on that call: the previous call's input plus its output and the
-          tool result. Tool-call arguments count ~50 output tokens each. Caching assumes the provider
-          caches the repeated prefix of each call and bills it at ~10% of the input price; caching does
-          not remove calls or latency, and the system prompt is counted uncached on the first call.
+          tool result. Tool-call arguments count ~50 output tokens each. With prompt caching,
+          each call's prefix (the previous call's input) is already in cache; "not cached" counts only the
+          rest, plus all output. The first call's system prompt counts as not cached and the plan step is
+          counted in full. Caching does not remove calls or latency.
         </p>
 
         <div class="measured">
